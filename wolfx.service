@@ -1,0 +1,15 @@
+[Unit]
+Description=WOLFX Academy (gunicorn)
+After=network.target
+
+[Service]
+User=wolfx
+Group=wolfx
+WorkingDirectory=/opt/wolfx
+EnvironmentFile=/etc/wolfx/wolfx.env
+ExecStart=/opt/wolfx/venv/bin/gunicorn app:app --bind 127.0.0.1:8000 --workers 2 --timeout 600
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

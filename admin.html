@@ -1,0 +1,6 @@
+{% extends "admin_base.html" %}{% block body %}
+<h2>Registrations ({{ leads|length }})</h2><a href="{{ url_for('export') }}">Export CSV</a>
+<div class="wrap"><table><tr><th>#</th><th>Name</th><th>Phone</th><th>Email</th><th>Program</th><th>Message</th><th>Date</th><th></th></tr>
+{% for l in leads %}<tr><td>{{ l.id }}</td><td>{{ l.name }}</td><td><a href="tel:{{ l.phone }}">{{ l.phone }}</a></td><td>{{ l.email }}</td><td>{{ l.program }}</td><td>{{ l.message }}</td><td>{{ l.created_at }}</td>
+<td><form method="post" action="{{ url_for('delete', lead_id=l.id) }}" onsubmit="return confirm('Delete?')"><input type="hidden" name="csrf" value="{{ csrf }}"><button>✕</button></form></td></tr>{% endfor %}
+</table></div>{% endblock %}

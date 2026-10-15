@@ -1,0 +1,24 @@
+{% extends "admin_base.html" %}{% block body %}
+<h2>Videos</h2>
+{% if error %}<p style="color:#f87171">{{ error }}</p>{% endif %}
+<form method="post" action="{{ url_for('videos_upload') }}" enctype="multipart/form-data" class="card" id="up">
+<input type="hidden" name="csrf" value="{{ csrf }}">
+<label>Video file (MP4 / WebM / MOV, max {{ max_mb }} MB)</label><input type="file" name="video" accept="video/*" required>
+<label>Title</label><input name="title">
+<label>Description</label><textarea name="description" rows="2"></textarea>
+<label>Order</label><input type="number" name="position" value="99" style="width:90px">
+<label><input type="checkbox" name="is_public"> Show on the public website</label>
+<div><button id="upbtn">Upload</button> <span id="upmsg"></span></div></form>
+<script>document.getElementById('up').addEventListener('submit',function(){var b=document.getElementById('upbtn');b.disabled=true;document.getElementById('upmsg').textContent='Uploading... keep this page open';setTimeout(function(){b.disabled=false},600000)});</script>
+{% for r in rows %}
+<div class="card">
+<video src="{{ url_for('media_video', vid=r.id) }}" controls preload="metadata" style="max-width:360px;width:100%;border-radius:8px"></video>
+<form method="post" action="{{ url_for('videos_save') }}" style="display:grid;gap:8px">
+<input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ r.id }}">
+<input name="title" value="{{ r.title }}" required>
+<textarea name="description" rows="2">{{ r.description }}</textarea>
+<label>Order <input type="number" name="position" value="{{ r.position }}" style="width:90px"></label>
+<label><input type="checkbox" name="is_public" {% if r.is_public %}checked{% endif %}> Public</label>
+<div><button>Save</button></div></form>
+<form method="post" action="{{ url_for('videos_delete', vid=r.id) }}" onsubmit="return confirm('Delete this video?')"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Delete</button></form>
+</div>{% endfor %}{% endblock %}

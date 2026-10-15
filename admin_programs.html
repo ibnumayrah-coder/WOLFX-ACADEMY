@@ -1,0 +1,16 @@
+{% extends "admin_base.html" %}{% block body %}
+<h2>Programs</h2>
+{% macro form(r) %}
+<form method="post" action="{{ url_for('programs_save') }}" class="card">
+<input type="hidden" name="csrf" value="{{ csrf }}">{% if r %}<input type="hidden" name="id" value="{{ r.id }}">{% endif %}
+<label>Title</label><input name="title" value="{{ r.title if r else '' }}" required>
+<label>Description</label><textarea name="description" rows="3">{{ r.description if r else '' }}</textarea>
+<label>Topics (one per line)</label><textarea name="topics" rows="3">{{ r.topics if r else '' }}</textarea>
+<label>Order</label><input type="number" name="position" value="{{ r.position if r else 99 }}" style="width:90px">
+<label><input type="checkbox" name="featured" {% if r and r.featured %}checked{% endif %}> Popular badge</label>
+<label><input type="checkbox" name="coming_soon" {% if r and r.coming_soon %}checked{% endif %}> Coming soon</label>
+<div><button>{{ 'Save' if r else 'Add program' }}</button></div></form>
+{% if r %}<form method="post" action="{{ url_for('programs_delete', pid=r.id) }}" onsubmit="return confirm('Delete?')" style="margin-top:-8px"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Delete</button></form>{% endif %}
+{% endmacro %}
+{% for r in rows %}{{ form(r) }}{% endfor %}
+<h3>Add new</h3>{{ form(none) }}{% endblock %}

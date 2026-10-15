@@ -1,0 +1,4 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WOLFX Admin</title><style>body{font-family:system-ui,sans-serif;background:#05070b;color:#f5f9ff;margin:0;padding:24px}a{color:#55c4ff}table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}th,td{border-bottom:1px solid #222;padding:8px;text-align:left;vertical-align:top}input,button{padding:10px;border-radius:8px;border:1px solid #333;background:#0d131e;color:#fff}button{cursor:pointer}.wrap{overflow-x:auto}</style></head>
+<body><h2>WOLFX Admin</h2>
+<form method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><input type="password" name="password" placeholder="Password" autofocus> <button>Login</button></form>
+{% if error %}<p style="color:#f87171">{{ error }}</p>{% endif %}</body></html>

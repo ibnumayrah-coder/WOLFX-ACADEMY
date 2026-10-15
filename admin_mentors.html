@@ -1,0 +1,13 @@
+{% extends "admin_base.html" %}{% block body %}
+<h2>Mentors</h2>
+{% macro form(r) %}
+<form method="post" action="{{ url_for('mentors_save') }}" class="card">
+<input type="hidden" name="csrf" value="{{ csrf }}">{% if r %}<input type="hidden" name="id" value="{{ r.id }}">{% endif %}
+<label>Name</label><input name="name" value="{{ r.name if r else '' }}" required>
+<label>Role</label><input name="role" value="{{ r.role if r else '' }}">
+<label>Order</label><input type="number" name="position" value="{{ r.position if r else 99 }}" style="width:90px">
+<div><button>{{ 'Save' if r else 'Add mentor' }}</button></div></form>
+{% if r %}<form method="post" action="{{ url_for('mentors_delete', mid=r.id) }}" onsubmit="return confirm('Delete?')" style="margin-top:-8px"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Delete</button></form>{% endif %}
+{% endmacro %}
+{% for r in rows %}{{ form(r) }}{% endfor %}
+<h3>Add new</h3>{{ form(none) }}{% endblock %}
